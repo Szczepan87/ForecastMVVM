@@ -1,4 +1,4 @@
-package com.example.forecastmvvm.data
+package com.example.forecastmvvm.data.network
 
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -20,15 +20,32 @@ interface ApixuWeatherApiService {
     ): Deferred<CurrentWeatherResponse>
 
     companion object {
-        operator fun invoke(): ApixuWeatherApiService {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): ApixuWeatherApiService {
             val requestInterceptor = Interceptor { chain ->
-                val url =
-                    chain.request().url().newBuilder().addQueryParameter("access_key", API_KEY).build()
-                val request = chain.request().newBuilder().url(url).build()
+                val url = chain.request()
+                    .url()
+                    .newBuilder()
+                    .addQueryParameter("access_key",
+                        API_KEY
+                    )
+                    .build()
+
+                val request = chain.request()
+                    .newBuilder()
+                    .url(url)
+                    .build()
+
                 return@Interceptor chain.proceed(request)
             }
-            val okHttpClient = OkHttpClient.Builder().addInterceptor(requestInterceptor).build()
-            return Retrofit.Builder().client(okHttpClient).baseUrl("http://api.weatherstack.com/")
+            val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
+                .build()
+            return Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl("http://api.weatherstack.com/")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create()).build()
                 .create(ApixuWeatherApiService::class.java)
