@@ -6,7 +6,7 @@ import com.example.forecastmvvm.internal.METRIC_UNITS
 import com.example.forecastmvvm.internal.lazyDeffered
 
 class CurrentWeatherViewModel(private val forecastRepository: ForecastRepository) : ViewModel() {
-    private val unitSystem = METRIC_UNITS // get from settings
+    val unitSystem = METRIC_UNITS // get from settings
 
     val weather by lazyDeffered { forecastRepository.getCurrentWeather() }
     //lazy { viewModelScope.launch { forecastRepository.getCurrentWeather() } }
