@@ -1,6 +1,7 @@
 package com.example.forecastmvvm.data.network
 
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
+import com.example.forecastmvvm.internal.METRIC_UNITS
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -16,7 +17,8 @@ interface ApixuWeatherApiService {
 
     @GET("current")
     fun getCurrentWeather(
-        @Query("query") location: String
+        @Query("query") location: String,
+        @Query("units") units: String = METRIC_UNITS
     ): Deferred<CurrentWeatherResponse>
 
     companion object {
@@ -27,7 +29,8 @@ interface ApixuWeatherApiService {
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("access_key",
+                    .addQueryParameter(
+                        "access_key",
                         API_KEY
                     )
                     .build()
