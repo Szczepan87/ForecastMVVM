@@ -12,4 +12,6 @@ class CurrentWeatherViewModel(
     val unitSystem = unitProvider.unitProvider()
 
     val weather by lazyDeffered { forecastRepository.getCurrentWeather() }
+
+    val weatherLocation by lazyDeffered { forecastRepository.getWeatherLocation() }
 }

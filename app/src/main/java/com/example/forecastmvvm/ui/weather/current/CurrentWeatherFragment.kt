@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
-import com.example.forecastmvvm.internal.DEFAULT_LOCATION
 import com.example.forecastmvvm.internal.UnitSystem
 import com.example.forecastmvvm.internal.glide.GlideApp
 import com.example.forecastmvvm.ui.base.ScopedFragment
@@ -44,13 +43,18 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
     private fun bindUI() = launch {
         val currentWeather = viewModel.weather.await()
+        val weatherLocation = viewModel.weatherLocation.await()
+
+        weatherLocation.observe(viewLifecycleOwner, Observer { location ->
+            if (location == null) return@Observer
+            updateLocation(location.name)
+        })
 
         currentWeather.observe(
             viewLifecycleOwner,
             Observer {
                 if (it == null) return@Observer
                 group_loading.visibility = View.GONE
-                updateLocation(DEFAULT_LOCATION)
                 updateDateToToday()
                 updateTemperatures(it.temperature, it.feelslike)
                 updateCondition(it.weatherDescriptions.first())
