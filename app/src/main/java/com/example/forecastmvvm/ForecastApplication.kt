@@ -26,8 +26,14 @@ class ForecastApplication : Application(), KodeinAware {
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
         bind() from singleton { ApixuWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind<ForecastRepository>() with singleton {
+            ForecastRepositoryImpl(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
     }
 

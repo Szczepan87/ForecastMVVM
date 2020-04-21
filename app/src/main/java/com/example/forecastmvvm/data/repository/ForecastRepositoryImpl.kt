@@ -6,7 +6,8 @@ import com.example.forecastmvvm.data.db.CurrentWeatherDao
 import com.example.forecastmvvm.data.db.entity.CurrentWeatherEntry
 import com.example.forecastmvvm.data.network.WeatherNetworkDataSource
 import com.example.forecastmvvm.data.network.response.CurrentWeatherResponse
-import com.example.forecastmvvm.internal.DEFAULT_LOCATION
+import com.example.forecastmvvm.data.provider.UnitProvider
+import com.example.forecastmvvm.internal.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -15,7 +16,8 @@ import org.threeten.bp.ZonedDateTime
 
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherDao,
-    private val weatherNetworkDataSource: WeatherNetworkDataSource
+    private val weatherNetworkDataSource: WeatherNetworkDataSource,
+    private val unitProvider: UnitProvider
 ) : ForecastRepository {
 
     init {
@@ -42,7 +44,12 @@ class ForecastRepositoryImpl(
     }
 
     private suspend fun fetchCurrentWeather() {
-        weatherNetworkDataSource.fetchCurrentWeather(DEFAULT_LOCATION)
+        val units = when (unitProvider.unitProvider()) {
+            UnitSystem.METRIC -> METRIC_UNITS
+            UnitSystem.IMPERIAL -> IMPERIAL_UNITS
+            UnitSystem.SCIENTIFIC -> SCIENCE_UNITS
+        }
+        weatherNetworkDataSource.fetchCurrentWeather(DEFAULT_LOCATION, units)
     }
 
     private fun isFetchCurrentWeatherNeeded(lastFetchTime: ZonedDateTime): Boolean {
