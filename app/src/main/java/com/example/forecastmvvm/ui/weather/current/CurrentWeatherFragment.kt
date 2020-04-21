@@ -9,9 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.internal.DEFAULT_LOCATION
-import com.example.forecastmvvm.internal.IMPERIAL_UNITS
-import com.example.forecastmvvm.internal.METRIC_UNITS
-import com.example.forecastmvvm.internal.SCIENCE_UNITS
+import com.example.forecastmvvm.internal.UnitSystem
 import com.example.forecastmvvm.internal.glide.GlideApp
 import com.example.forecastmvvm.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.current_weather_fragment.*
@@ -72,10 +70,9 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         scientific: String
     ): String {
         return when (viewModel.unitSystem) {
-            METRIC_UNITS -> metric
-            IMPERIAL_UNITS -> imperial
-            SCIENCE_UNITS -> scientific
-            else -> ""
+            UnitSystem.METRIC -> metric
+            UnitSystem.IMPERIAL -> imperial
+            UnitSystem.SCIENTIFIC -> scientific
         }
     }
 

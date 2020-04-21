@@ -3,6 +3,8 @@ package com.example.forecastmvvm
 import android.app.Application
 import com.example.forecastmvvm.data.db.ForecastDatabase
 import com.example.forecastmvvm.data.network.*
+import com.example.forecastmvvm.data.provider.UnitProvider
+import com.example.forecastmvvm.data.provider.UnitProviderImpl
 import com.example.forecastmvvm.data.repository.ForecastRepository
 import com.example.forecastmvvm.data.repository.ForecastRepositoryImpl
 import com.example.forecastmvvm.ui.weather.current.CurrentWeatherViewModelFactory
@@ -25,7 +27,8 @@ class ForecastApplication : Application(), KodeinAware {
         bind() from singleton { ApixuWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance()) }
-        bind() from provider { CurrentWeatherViewModelFactory(instance()) }
+        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
     }
 
     override fun onCreate() {

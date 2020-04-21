@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Used for storing values-->
+    <string-array name="unitSystemValues">
+        <item>METRIC</item>
+        <item>IMPERIAL</item>
+        <item>SCIENTIFIC</item>
+    </string-array>
+
+    <!-- Used for translation-->
+    <string-array name="unitSystemEntries">
+        <item>Metric</item>
+        <item>Imperial</item>
+        <item>Scientific</item>
+    </string-array>
+</resources>
