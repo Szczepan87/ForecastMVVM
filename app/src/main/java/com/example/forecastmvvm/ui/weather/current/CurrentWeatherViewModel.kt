@@ -3,7 +3,7 @@ package com.example.forecastmvvm.ui.weather.current
 import androidx.lifecycle.ViewModel
 import com.example.forecastmvvm.data.provider.UnitProvider
 import com.example.forecastmvvm.data.repository.ForecastRepository
-import com.example.forecastmvvm.internal.lazyDeffered
+import com.example.forecastmvvm.internal.lazyDeferred
 
 class CurrentWeatherViewModel(
     private val forecastRepository: ForecastRepository,
@@ -11,7 +11,7 @@ class CurrentWeatherViewModel(
 ) : ViewModel() {
     val unitSystem = unitProvider.unitProvider()
 
-    val weather by lazyDeffered { forecastRepository.getCurrentWeather() }
+    val weather by lazyDeferred { forecastRepository.getCurrentWeather() }
 
-    val weatherLocation by lazyDeffered { forecastRepository.getWeatherLocation() }
+    val weatherLocation by lazyDeferred { forecastRepository.getWeatherLocation() }
 }
