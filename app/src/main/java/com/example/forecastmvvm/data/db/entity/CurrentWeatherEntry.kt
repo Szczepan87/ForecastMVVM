@@ -3,9 +3,8 @@ package com.example.forecastmvvm.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.forecastmvvm.internal.CURRENT_WEATHER_ID
 import com.google.gson.annotations.SerializedName
-
-const val CURRENT_WEATHER_ID = 0
 
 @Entity(tableName = "current_weather")
 data class CurrentWeatherEntry(

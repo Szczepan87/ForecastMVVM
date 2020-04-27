@@ -3,13 +3,16 @@ package com.example.forecastmvvm.ui
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.internal.MY_PERMISSION_ACCESS_COARSE_LOCATION
@@ -25,7 +28,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     override val kodein by closestKodein()
     private val fusedLocationProviderClient: FusedLocationProviderClient by instance<FusedLocationProviderClient>()
 
-    private val locationCallback = object : LocationCallback(){}
+    private val locationCallback = object : LocationCallback() {}
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,11 +36,10 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         setContentView(R.layout.activity_main)
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-        // NavigationUI.setupActionBarWithNavController(this, navController)
-        toolbar.setupWithNavController(navController)
-        bottom_nav.setupWithNavController(navController)
-
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+        setSupportActionBar(toolbar)
         requestLocationPermission()
 
         if (hasLocationPermission()) {
@@ -51,36 +53,47 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-            MY_PERMISSION_ACCESS_COARSE_LOCATION
+                this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                MY_PERMISSION_ACCESS_COARSE_LOCATION
         )
     }
 
     private fun hasLocationPermission() = ContextCompat.checkSelfPermission(
-        this,
-        Manifest.permission.ACCESS_COARSE_LOCATION
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         if (requestCode == MY_PERMISSION_ACCESS_COARSE_LOCATION) {
             if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED)
                 bindLocationManager()
             else
                 Toast.makeText(
-                    this,
-                    "Please, set location manually in settings!",
-                    Toast.LENGTH_LONG
+                        this,
+                        "Please, set location manually in settings!",
+                        Toast.LENGTH_LONG
                 )
-                    .show()
+                        .show()
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, null)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                navController.popBackStack()
+                return true
+            }
+        }
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 }
