@@ -15,10 +15,13 @@ const val API_KEY = "d7bd15a02155c170159eb84298959560"
 
 interface ApixuWeatherApiService {
 
+    /**
+     * Retrieving information from remote data service asynchronously using Deferred.
+     */
     @GET("current")
     fun getCurrentWeather(
-        @Query("query") location: String,
-        @Query("units") units: String = METRIC_UNITS
+            @Query("query") location: String,
+            @Query("units") units: String = METRIC_UNITS
     ): Deferred<CurrentWeatherResponse>
 
     companion object {

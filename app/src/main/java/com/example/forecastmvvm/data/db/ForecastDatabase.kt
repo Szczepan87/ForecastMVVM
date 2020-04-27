@@ -14,6 +14,10 @@ abstract class ForecastDatabase : RoomDatabase() {
     abstract fun currentWeatherDao(): CurrentWeatherDao
     abstract fun weatherLocationDao(): WeatherLocationDao
 
+    /**
+     * Only one thread can access database constructor.
+     * Providing lock to prohibit unwanted behaviour.
+     */
     companion object {
         @Volatile
         private var instance: ForecastDatabase? = null
@@ -24,10 +28,10 @@ abstract class ForecastDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(
-                context.applicationContext,
-                ForecastDatabase::class.java,
-                "forecast.db"
-            ).build()
+                Room.databaseBuilder(
+                        context.applicationContext,
+                        ForecastDatabase::class.java,
+                        "forecast.db"
+                ).build()
     }
 }

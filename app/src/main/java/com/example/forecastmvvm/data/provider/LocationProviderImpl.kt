@@ -11,9 +11,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Deferred
 import kotlin.math.abs
 
+/**
+ * Custom location provider for dependant classes which need info about current location.
+ * Uses injected FusedLocationProviderClient from google.gms library.
+ */
 class LocationProviderImpl(
-    context: Context,
-    private val fusedLocationProviderClient: FusedLocationProviderClient
+        context: Context,
+        private val fusedLocationProviderClient: FusedLocationProviderClient
 ) : PreferenceProvider(context), LocationProvider {
 
     private val appContext = context.applicationContext
@@ -27,11 +31,16 @@ class LocationProviderImpl(
         return deviceLocationChanged || hasCustomLocationChanged(lastWeatherLocation)
     }
 
+    /**
+     * Returns currently used location.
+     * If location provided by FusedLocationProviderClient fails then it returns location currently
+     * set manually in settings.
+     */
     override suspend fun getPreferredLocationString(): String {
         return if (isUsingDeviceLocation()) {
             try {
                 val deviceLocation =
-                    getLastDeviceLocation().await() ?: return getCustomLocationName()
+                        getLastDeviceLocation().await() ?: return getCustomLocationName()
                 "${deviceLocation.latitude},${deviceLocation.longitude}"
             } catch (e: LocationPermissionNotGrantedException) {
                 getCustomLocationName()
@@ -39,6 +48,10 @@ class LocationProviderImpl(
         } else getCustomLocationName()
     }
 
+    /**
+     * Accepts lastWeatherLocation and compares it to the location stored in database.
+     * If user is providing custom location in setting then function returns false.
+     */
     private suspend fun hasDeviceLocationChanged(lastWeatherLocation: WeatherLocation): Boolean {
         if (isUsingDeviceLocation().not()) return false
 
@@ -50,6 +63,9 @@ class LocationProviderImpl(
 
     private fun isUsingDeviceLocation() = preferences.getBoolean(USE_DEVICE_LOCATION, true)
 
+    /**
+     * Getting Deferred form FusedLocationProviderClient. Allows for using await() later on.
+     */
     private fun getLastDeviceLocation(): Deferred<Location?> {
         return if (hasLocationPermission())
             fusedLocationProviderClient.lastLocation.asDeferred()
@@ -58,13 +74,13 @@ class LocationProviderImpl(
     }
 
     private fun hasLocationPermission() = ContextCompat.checkSelfPermission(
-        appContext,
-        Manifest.permission.ACCESS_COARSE_LOCATION
+            appContext,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED
 
     private fun hasCustomLocationChanged(lastWeatherLocation: WeatherLocation) =
-        getCustomLocationName() != lastWeatherLocation.name
+            getCustomLocationName() != lastWeatherLocation.name
 
     private fun getCustomLocationName(): String =
-        preferences.getString(CUSTOM_LOCATION, DEFAULT_LOCATION) ?: DEFAULT_LOCATION
+            preferences.getString(CUSTOM_LOCATION, DEFAULT_LOCATION) ?: DEFAULT_LOCATION
 }

@@ -6,12 +6,17 @@ import com.google.gson.reflect.TypeToken
 
 class TypeConverters {
 
+
+    /**
+     * Type converter for retrieving information about icon picture.
+     * All necessary information is kept inside a List<String>
+     */
     @TypeConverter
     fun restoreList(listOfString: String?): List<String?>? {
         return Gson().fromJson(
-            listOfString,
-            object :
-                TypeToken<List<String?>?>() {}.type
+                listOfString,
+                object :
+                        TypeToken<List<String?>?>() {}.type
         )
     }
 

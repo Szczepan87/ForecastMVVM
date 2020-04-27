@@ -41,6 +41,10 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         bindUI()
     }
 
+    /**
+     * Launches from CoroutineScope provided by ScopedFragment() and awaits for weather
+     * and weather location data to be initialized. Observes values and changes UI accordingly.
+     */
     private fun bindUI() = launch {
         val currentWeather = viewModel.weather.await()
         val weatherLocation = viewModel.weatherLocation.await()
@@ -51,21 +55,21 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         })
 
         currentWeather.observe(
-            viewLifecycleOwner,
-            Observer {
-                if (it == null) return@Observer
-                group_loading.visibility = View.GONE
-                updateDateToToday()
-                updateTemperatures(it.temperature, it.feelslike)
-                updateCondition(it.weatherDescriptions.first())
-                updatePrecipitation(it.precip)
-                updateWind(it.windDir, it.windSpeed)
-                updateVisibility(it.visibility)
+                viewLifecycleOwner,
+                Observer {
+                    if (it == null) return@Observer
+                    group_loading.visibility = View.GONE
+                    updateDateToToday()
+                    updateTemperatures(it.temperature, it.feelslike)
+                    updateCondition(it.weatherDescriptions.first())
+                    updatePrecipitation(it.precip)
+                    updateWind(it.windDir, it.windSpeed)
+                    updateVisibility(it.visibility)
 
-                GlideApp.with(this@CurrentWeatherFragment)
-                    .load(it.weatherIcons.first())
-                    .into(imageView_condition_icon)
-            })
+                    GlideApp.with(this@CurrentWeatherFragment)
+                            .load(it.weatherIcons.first())
+                            .into(imageView_condition_icon)
+                })
     }
 
     private fun chooseLocalisedUnitAbbreviation(
@@ -79,6 +83,10 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             UnitSystem.SCIENTIFIC -> scientific
         }
     }
+
+    /**
+     * A series of function that updates UI. DataBinding is not used in this app.
+     */
 
     private fun updateLocation(location: String) {
         (activity as AppCompatActivity).supportActionBar?.title = location

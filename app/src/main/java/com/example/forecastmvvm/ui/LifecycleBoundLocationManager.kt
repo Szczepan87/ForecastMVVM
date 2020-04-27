@@ -8,10 +8,13 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 
+/**
+ * Class that is responsible for getting location device based on LifecycleOwner's lifecycle.
+ */
 class LifecycleBoundLocationManager(
-    lifecycleOwner: LifecycleOwner,
-    private val fusedLocationProviderClient: FusedLocationProviderClient,
-    private val locationCallback: LocationCallback
+        lifecycleOwner: LifecycleOwner,
+        private val fusedLocationProviderClient: FusedLocationProviderClient,
+        private val locationCallback: LocationCallback
 ) : LifecycleObserver {
 
     init {

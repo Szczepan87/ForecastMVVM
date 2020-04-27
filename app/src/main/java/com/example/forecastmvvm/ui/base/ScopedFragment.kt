@@ -7,6 +7,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Abstract class that provides its CoroutineContext which is connected to Fragment lifecycle.
+ */
 abstract class ScopedFragment : Fragment(), CoroutineScope {
     private lateinit var job: Job
 

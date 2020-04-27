@@ -47,6 +47,9 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         } else requestLocationPermission()
     }
 
+    /**
+     * Binds custom Location Manager that is connected to Activity Lifecycle.
+     */
     private fun bindLocationManager() {
         LifecycleBoundLocationManager(this, fusedLocationProviderClient, locationCallback)
     }

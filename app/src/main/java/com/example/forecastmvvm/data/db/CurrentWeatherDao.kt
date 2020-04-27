@@ -11,6 +11,10 @@ import com.example.forecastmvvm.internal.CURRENT_WEATHER_ID
 @Dao
 interface CurrentWeatherDao {
 
+    /**
+     * Only one instance will be held in database.
+     * Update or insert is called.
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(currentWeatherEntry: CurrentWeatherEntry)
 

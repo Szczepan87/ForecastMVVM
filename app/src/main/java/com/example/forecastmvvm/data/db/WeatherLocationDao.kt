@@ -11,6 +11,9 @@ import com.example.forecastmvvm.data.db.entity.WeatherLocation
 @Dao
 interface WeatherLocationDao {
 
+    /**
+     * Only one instance of location is held in database.
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(weatherLocation: WeatherLocation)
 

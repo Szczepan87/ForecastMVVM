@@ -21,6 +21,10 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
+/**
+ * Base application class that provides DI by Kodein.
+ * Also AndroidThreeTen library is initialized.
+ */
 class ForecastApplication : Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@ForecastApplication)) // provides context etc.
@@ -36,11 +40,11 @@ class ForecastApplication : Application(), KodeinAware {
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind<ForecastRepository>() with singleton {
             ForecastRepositoryImpl(
-                instance(),
-                instance(),
-                instance(),
-                instance(),
-                instance()
+                    instance(),
+                    instance(),
+                    instance(),
+                    instance(),
+                    instance()
             )
         }
         bind() from provider { CurrentWeatherViewModelFactory(instance(), instance()) }
