@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.forecastmvvm.R
@@ -27,8 +28,8 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private lateinit var viewModel: CurrentWeatherViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.current_weather_fragment, container, false)
     }
@@ -37,7 +38,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(CurrentWeatherViewModel::class.java)
+                .get(CurrentWeatherViewModel::class.java)
         bindUI()
     }
 
@@ -65,6 +66,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
                     updatePrecipitation(it.precip)
                     updateWind(it.windDir, it.windSpeed)
                     updateVisibility(it.visibility)
+                    updateDarkMode(it.isDay)
 
                     GlideApp.with(this@CurrentWeatherFragment)
                             .load(it.weatherIcons.first())
@@ -73,9 +75,9 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun chooseLocalisedUnitAbbreviation(
-        metric: String,
-        imperial: String,
-        scientific: String
+            metric: String,
+            imperial: String,
+            scientific: String
     ): String {
         return when (viewModel.unitSystem) {
             UnitSystem.METRIC -> metric
@@ -119,5 +121,12 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private fun updateVisibility(visibilityDistance: Double) {
         val unitAbbreviation = chooseLocalisedUnitAbbreviation("km", "mi", "km")
         textView_visibility.text = "Visibility: $visibilityDistance $unitAbbreviation"
+    }
+
+    private fun updateDarkMode(isDay: String) {
+        when (isDay) {
+            "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 }
