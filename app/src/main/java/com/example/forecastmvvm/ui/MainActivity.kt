@@ -12,10 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.example.forecastmvvm.R
 import com.example.forecastmvvm.internal.MY_PERMISSION_ACCESS_COARSE_LOCATION
+import com.example.forecastmvvm.ui.settings.SettingsFragmentDirections
+import com.example.forecastmvvm.ui.weather.current.CurrentWeatherFragmentDirections
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import kotlinx.android.synthetic.main.activity_main.*
@@ -93,10 +94,16 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                navController.popBackStack()
+                val action = SettingsFragmentDirections.actionSettingsFragmentToCurrentWeatherFragment()
+                navController.navigate(action)
+                return true
+            }
+            R.id.settingsFragment -> {
+                val action = CurrentWeatherFragmentDirections.actionCurrentWeatherFragmentToSettingsFragment()
+                navController.navigate(action)
                 return true
             }
         }
-        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 }
