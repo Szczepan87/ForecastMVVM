@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.weather.current.CurrentWeatherFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_loading"
@@ -89,6 +89,16 @@
         tools:tint="#f9a920" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textView_uvIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UV Index: 10"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_condition_icon"
+        app:layout_constraintStart_toStartOf="@+id/imageView_condition_icon"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_condition_icon" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,6 +128,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_temperature"
         app:layout_constraintVertical_bias="0.0"
         tools:text="Feels like 20.4°C" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textView_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humidity: 80%"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        app:layout_constraintEnd_toEndOf="@+id/textView_temperature"
+        app:layout_constraintHorizontal_bias="0.423"
+        app:layout_constraintStart_toStartOf="@+id/textView_temperature"
+        app:layout_constraintTop_toBottomOf="@+id/textView_feels_like_temperature" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView_wind"

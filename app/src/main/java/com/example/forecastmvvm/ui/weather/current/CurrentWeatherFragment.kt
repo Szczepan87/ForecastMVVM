@@ -60,13 +60,15 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
                 Observer {
                     if (it == null) return@Observer
                     group_loading.visibility = View.GONE
-                    updateDateToToday()
+                    updateDateToToday(it.observationTime)
                     updateTemperatures(it.temperature, it.feelslike)
                     updateCondition(it.weatherDescriptions.first())
                     updatePrecipitation(it.precip)
                     updateWind(it.windDir, it.windSpeed)
                     updateVisibility(it.visibility)
                     updateDarkMode(it.isDay)
+                    updateHumidity(it.humidity)
+                    updateUvIndex(it.uvIndex)
 
                     GlideApp.with(this@CurrentWeatherFragment)
                             .load(it.weatherIcons.first())
@@ -94,8 +96,8 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
         (activity as AppCompatActivity).supportActionBar?.title = location
     }
 
-    private fun updateDateToToday() {
-        (activity as AppCompatActivity).supportActionBar?.subtitle = "Today"
+    private fun updateDateToToday(time: String) {
+        (activity as AppCompatActivity).supportActionBar?.subtitle = time
     }
 
     private fun updateTemperatures(temperature: Double, feelsLike: Double) {
@@ -128,5 +130,13 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             "no" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             "yes" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
+    }
+
+    private fun updateHumidity(humidity: Double) {
+        textView_humidity.text = "Humidity: $humidity%"
+    }
+
+    private fun updateUvIndex(uvIndex: Double) {
+        textView_uvIndex.text = "UV Index: $uvIndex"
     }
 }
