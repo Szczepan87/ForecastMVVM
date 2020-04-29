@@ -2,29 +2,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="Weather Location">
+    <PreferenceCategory android:title="@string/weather_location">
         <SwitchPreference
             android:defaultValue="true"
             android:disableDependentsState="true"
             android:key="USE_DEVICE_LOCATION"
-            android:summary="Allow the app to get your location"
-            android:title="Use device location" />
+            android:summary="@string/allow_app_location"
+            android:title="@string/use_device_location" />
 
         <EditTextPreference
             android:defaultValue="Wroclaw"
             android:dependency="USE_DEVICE_LOCATION"
             android:key="CUSTOM_LOCATION"
-            android:summary="The location for which the weather is displayed"
-            android:title="Location" />
+            android:summary="@string/location_summary"
+            android:title="@string/location" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Units">
+    <PreferenceCategory android:title="@string/units">
         <ListPreference
             android:entries="@array/unitSystemEntries"
             android:entryValues="@array/unitSystemValues"
             android:key="UNIT_SYSTEM"
             android:summary="%s"
-            android:title="Unit system"
+            android:title="@string/unit_system"
             app:defaultValue="METRIC"/>
     </PreferenceCategory>
 

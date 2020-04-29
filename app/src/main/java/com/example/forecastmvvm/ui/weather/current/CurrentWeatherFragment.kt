@@ -103,7 +103,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     private fun updateTemperatures(temperature: Double, feelsLike: Double) {
         val unitAbbreviation = chooseLocalisedUnitAbbreviation("C", "F", "K")
         textView_temperature.text = "$temperature $unitAbbreviation"
-        textView_feels_like_temperature.text = "Feels like: $feelsLike $unitAbbreviation"
+        textView_feels_like_temperature.text = "${getString(R.string.feels_like)} $feelsLike $unitAbbreviation"
     }
 
     private fun updateCondition(condition: String) {
@@ -112,17 +112,17 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
 
     private fun updatePrecipitation(precipitationVolume: Double) {
         val unitAbbreviation = chooseLocalisedUnitAbbreviation("mm", "in", "mm")
-        textView_precipitation.text = "Precipitation: $precipitationVolume $unitAbbreviation"
+        textView_precipitation.text = "${getString(R.string.precipitation)} $precipitationVolume $unitAbbreviation"
     }
 
     private fun updateWind(windDirection: String, windSpeed: Double) {
         val unitAbbreviation = chooseLocalisedUnitAbbreviation("km/h", "mi/h", "m/s")
-        textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
+        textView_wind.text = "${getString(R.string.wind)} $windDirection $windSpeed $unitAbbreviation"
     }
 
     private fun updateVisibility(visibilityDistance: Double) {
         val unitAbbreviation = chooseLocalisedUnitAbbreviation("km", "mi", "km")
-        textView_visibility.text = "Visibility: $visibilityDistance $unitAbbreviation"
+        textView_visibility.text = "${getString(R.string.visibility)} $visibilityDistance $unitAbbreviation"
     }
 
     private fun updateDarkMode(isDay: String) {
@@ -133,10 +133,10 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun updateHumidity(humidity: Double) {
-        textView_humidity.text = "Humidity: $humidity%"
+        textView_humidity.text = "${getString(R.string.humidity)} $humidity"
     }
 
     private fun updateUvIndex(uvIndex: Double) {
-        textView_uvIndex.text = "UV Index: $uvIndex"
+        textView_uvIndex.text = "${getString(R.string.uv_index)} $uvIndex"
     }
 }

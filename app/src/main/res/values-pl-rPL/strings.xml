@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Forecast MVVM</string>
+    <string name="settings" translatable="false">Ustawienia</string>
+    <string name="feels_like" translatable="false">"Odczuwalna: "</string>
+    <string name="precipitation" translatable="false">"Opad: "</string>
+    <string name="wind" translatable="false">"Wiatr: "</string>
+    <string name="visibility" translatable="false">"Widzialność: "</string>
+    <string name="humidity" translatable="false">"Wilgotność: "</string>
+    <string name="uv_index" translatable="false">"Indeks UV: "</string>
+    <string name="set_location_manually">Ustaw, lokalizację ręcznie w ustawieniach!</string>
+    <string name="allow_app_location">Pozwól by aplikacja pobierała Twoją lokalizację</string>
+    <string name="use_device_location">Użyj bieżącej lokalizacji</string>
+    <string name="weather_location">Lokalizacja pogody</string>
+    <string name="location">Lokalizacja</string>
+    <string name="location_summary">Lokalizacja, z której będą pochcodzić dane pogodowe.</string>
+    <string name="units">Jednoski</string>
+    <string name="unit_system">System Miar</string>
+</resources>

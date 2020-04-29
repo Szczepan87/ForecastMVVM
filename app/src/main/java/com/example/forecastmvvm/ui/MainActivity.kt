@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             else
                 Toast.makeText(
                         this,
-                        "Please, set location manually in settings!",
+                        getString(R.string.set_location_manually),
                         Toast.LENGTH_LONG
                 )
                         .show()
